@@ -5,7 +5,7 @@
     "height": 2000,
     "scrollTop": -27.520001049804762,
     "scrollLeft": -0.9600000366210951,
-    "zoomLevel": 1,
+    "zoomLevel": 0.9,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -19,7 +19,7 @@
     },
     "database": "Oracle",
     "databaseName": "School",
-    "canvasType": "SQLDDL",
+    "canvasType": "ERD",
     "language": "GraphQL",
     "tableCase": "pascalCase",
     "columnCase": "camelCase",
@@ -360,7 +360,7 @@
           }
         ],
         "ui": {
-          "active": true,
+          "active": false,
           "left": 1043.520039807129,
           "top": 68.39999688720653,
           "zIndex": 11,
@@ -1147,10 +1147,10 @@
           }
         ],
         "ui": {
-          "active": false,
-          "left": 1084.1600337280254,
-          "top": 790.2400263305664,
-          "zIndex": 8,
+          "active": true,
+          "left": 1110.8267014119444,
+          "top": 543.8400169311534,
+          "zIndex": 12,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1426,8 +1426,8 @@
           "columnIds": [
             "961d421d-b417-4291-ab61-26eb9d9dac66"
           ],
-          "x": 1175.6600337280254,
-          "y": 790.2400263305664,
+          "x": 1202.3267014119444,
+          "y": 543.8400169311534,
           "direction": "top"
         },
         "constraintName": "fk_course_to_units",
@@ -1442,8 +1442,8 @@
           "columnIds": [
             "b872f5b0-cbfc-4790-96c8-f259e54b9ee3"
           ],
-          "x": 1358.6600337280254,
-          "y": 790.2400263305664,
+          "x": 1385.3267014119444,
+          "y": 543.8400169311534,
           "direction": "top"
         },
         "end": {
@@ -1467,8 +1467,8 @@
           "columnIds": [
             "b872f5b0-cbfc-4790-96c8-f259e54b9ee3"
           ],
-          "x": 1084.1600337280254,
-          "y": 855.4900263305664,
+          "x": 1110.8267014119444,
+          "y": 609.0900169311534,
           "direction": "left"
         },
         "end": {

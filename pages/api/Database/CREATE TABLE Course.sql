@@ -2,7 +2,7 @@ CREATE TABLE Course
 (
   Course_ID     NUMBER NOT NULL,
   Course_Name   VARCHAR2(50 CHAR) NOT NULL,
-  Department_ID NUMBER   NOT NULL,
+  Department_ID NUMBER   NOT NULL UNIQUE,
   CONSTRAINT PK_Course PRIMARY KEY (Course_ID)
 );
 
@@ -83,7 +83,6 @@ CREATE TABLE Student
   Student_ID      NUMBER   NOT NULL,
   First_Name      VARCHAR2(50 CHAR) NOT NULL,
   Last_Name       VARCHAR2(50 CHAR) NOT NULL,
-  Units_Rgistered VARCHAR2(50 CHAR) NOT NULL,
   Fee_Billed      NUMBER   DEFAULT 0,
   Age             NUMBER   NOT NULL,
   Sex             VARCHAR2(50 CHAR) NOT NULL,
@@ -99,6 +98,13 @@ CREATE TABLE Units
 (
   Unit_ID   NUMBER NOT NULL,
   Unit_Name NUMBER NOT NULL,
-  Course_ID NUMBER NOT NULL,
+  Course_ID NUMBER NOT NULL UNIQUE,
   CONSTRAINT PK_Units PRIMARY KEY (Unit_ID)
+);
+
+CREATE TABLE COURSE_UNITS
+(
+  Unit_ID   NUMBER NOT NULL,
+  Course_ID NUMBER NOT NULL,
+  CONSTRAINT PK_Units PRIMARY KEY (Unit_ID, Course_ID)
 );

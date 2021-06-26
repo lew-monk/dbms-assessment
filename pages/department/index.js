@@ -2,10 +2,19 @@ import React, { useState } from "react";
 
 //Package Imports
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 const index = () => {
   const { handleSubmit, register } = useForm();
-  const onSubmit = (data) => {};
+  const onsubmit = (data) => {
+    axios({
+      method: "POST",
+      url: "http://localhost:3000/api/department",
+      data,
+    })
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className="w-full h-full flex bg-gray-100">
@@ -14,7 +23,7 @@ const index = () => {
       {/* Beginning of the Form Section  */}
       <div className="flex-1 shadow-2xl h-full bg-gray-50 ">
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onsubmit)}
           className="flex flex-col h-full items-center w-full justify-center"
         >
           {/* Beginning of the Department name Section  */}
@@ -35,7 +44,7 @@ const index = () => {
             <input
               type="submit"
               value="Register"
-              className="w-full h-10 bg-blue-400 rounded-md"
+              className="w-full h-10 bg-blue-400 rounded-md cursor-pointer"
             />
           </div>
         </form>

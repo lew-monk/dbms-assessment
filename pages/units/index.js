@@ -1,12 +1,25 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 
 //Package Imports
 import { useForm } from "react-hook-form";
 
-const index = () => {
-  const [departments, setDepartments] = useState(["Oaky"]);
+const index = ({ data }) => {
+  useEffect(() => {
+    setCourses(data.rows);
+  }, []);
+
+  const [courses, setCourses] = useState([]);
   const { handleSubmit, register } = useForm();
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => {
+    axios({
+      method: "POST",
+      url: "http://localhost:3000/api/unit",
+      data,
+    })
+      .then((resposne) => console.log(resposne))
+      .catch((err) => console.log(err.message));
+  };
 
   return (
     <div className="w-full h-full flex bg-gray-100">
@@ -27,7 +40,7 @@ const index = () => {
               <input
                 type="text"
                 className="w-full h-10 focus:outline-none focus:ring focus:border-blue-300 border border-gray-300 rounded-md"
-                {...register("Course-name")}
+                {...register("Unit-name")}
               />
             </div>
           </div>
@@ -39,17 +52,19 @@ const index = () => {
               <label>Course</label>
             </div>
             <div>
-              {departments.length < 1 ? (
-                <h1>No Departments Available</h1>
+              {courses.length < 1 ? (
+                <h1>No courses Available</h1>
               ) : (
                 <select
                   name=""
                   id=""
                   className="w-full h-10 focus:outline-none focus:ring focus:border-blue-300 border border-gray-300 rounded-md"
-                  {...register("Department")}
+                  {...register("course")}
                 >
-                  {departments.map((department) => (
-                    <option key={department}>{department}</option>
+                  {courses.map((course) => (
+                    <option key={course} value={course[2]}>
+                      {course[0]}
+                    </option>
                   ))}
                 </select>
               )}
@@ -68,6 +83,26 @@ const index = () => {
       {/* End of the Form Section  */}
     </div>
   );
+};
+
+export const getStaticProps = async () => {
+  const data = await axios({
+    method: "GET",
+    url:
+      "http://localhost:3000/api/course/getAll" ||
+      process.env.APP_URL + "course/getAll",
+  });
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      data: data.data.response,
+    },
+  };
 };
 
 export default index;

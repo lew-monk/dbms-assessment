@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 
 //Package Imports
 import { useForm } from "react-hook-form";
 
-const index = () => {
+const index = ({ data }) => {
+  const baseURL = process.env.API_URL_2;
+  useEffect(() => {
+    setDepartments(data.rows);
+  }, []);
+
   const [departments, setDepartments] = useState(["Oaky"]);
   const { handleSubmit, register } = useForm();
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => {
+    axios({
+      method: "POST",
+      url: "http://localhost:3000/api/course",
+      data,
+    })
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className="w-full h-full flex bg-gray-100">
@@ -49,7 +63,9 @@ const index = () => {
                   {...register("Department")}
                 >
                   {departments.map((department) => (
-                    <option key={department}>{department}</option>
+                    <option key={department} value={department[0]}>
+                      {department[1]}
+                    </option>
                   ))}
                 </select>
               )}
@@ -60,7 +76,7 @@ const index = () => {
             <input
               type="submit"
               value="Register"
-              className="w-full h-10 bg-blue-400 rounded-md"
+              className="w-full h-10 bg-blue-400 rounded-md cursor-pointer"
             />
           </div>
         </form>
@@ -68,6 +84,25 @@ const index = () => {
       {/* End of the Form Section  */}
     </div>
   );
+};
+
+export const getStaticProps = async () => {
+  const data = await axios({
+    method: "GET",
+    url: process.env.API_URL + "department/getAll",
+  });
+
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      data: data.data,
+    },
+  };
 };
 
 export default index;

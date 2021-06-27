@@ -56,6 +56,7 @@ CREATE TABLE Payment
   Pay_ID     NUMBER   NOT NULL,
   Status     VARCHAR2 DEFAULT 'Not Paid' NOT NULL,
   Student_ID NUMBER   NOT NULL,
+  Pay_Date TIMESTAMP, 
   CONSTRAINT PK_Payment PRIMARY KEY (Pay_ID)
 );
 

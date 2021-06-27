@@ -18,12 +18,12 @@ COMMENT ON TABLE Departments IS 'This covers the various departments in the scho
 CREATE TABLE Employee
 (
   Staff_ID   NUMBER   NOT NULL,
-  Pay        NUMBER   NOT NULL,
   First_Name VARCHAR2(50 CHAR) NOT NULL,
   Last_Name  VARCHAR2(50 CHAR) NOT NULL,
   Age        NUMBER   NOT NULL,
   Sex        VARCHAR2(50 CHAR) NOT NULL,
   Title      VARCHAR2(50 CHAR) NOT NULL,
+  Contact NUMBER NOT NULL,
   CONSTRAINT PK_Employee PRIMARY KEY (Staff_ID)
 );
 
@@ -42,6 +42,7 @@ CREATE TABLE Lec_Units
 (
   Unit_ID  NUMBER NOT NULL,
   Staff_ID NUMBER   NOT NULL
+  CONSTRAINT PK_LEC_UNITS PRIMARY KEY (UNIT_ID, Staff_ID)
 );
 
 CREATE TABLE Lectures
@@ -66,7 +67,7 @@ CREATE TABLE Register_Units
 (
   Student_ID NUMBER   NOT NULL,
   Unit_ID    NUMBER NOT NULL,
-  CONSTRAINT PK_Register_Units PRIMARY KEY (Unit_ID)
+  CONSTRAINT PK_Register_Units PRIMARY KEY (Unit_ID, Student_ID)
 );
 
 COMMENT ON TABLE Register_Units IS 'This Entity entails the units Information';
@@ -75,6 +76,7 @@ CREATE TABLE Staff
 (
   Area     VARCHAR2 NOT NULL,
   Staff_ID NUMBER   NOT NULL,
+  Title VARCHAR2 (50 CHAR) NOT NULL,
   CONSTRAINT PK_Staff PRIMARY KEY (Staff_ID)
 );
 
@@ -98,7 +100,6 @@ CREATE TABLE Units
 (
   Unit_ID   NUMBER NOT NULL,
   Unit_Name NUMBER NOT NULL,
-  Course_ID NUMBER NOT NULL UNIQUE,
   CONSTRAINT PK_Units PRIMARY KEY (Unit_ID)
 );
 

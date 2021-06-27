@@ -17,7 +17,9 @@ export default function Home() {
               <Link href="/student">Student Registration</Link>
             </div>
             <div className="link mb-2">Unit Registration</div>
-            <div className="link mb-2">Employee Registration</div>
+            <div className="link mb-2">
+              <Link href="/employee">Employee Registration</Link>
+            </div>
             <div className="link mb-2">Course Registration</div>
             <div className="link mb-2">Gaurdian Registration</div>
             <div className="link mb-2">

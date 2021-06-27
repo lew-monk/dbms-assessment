@@ -4,45 +4,53 @@ import React, { useState, useEffect } from "react";
 //Pckage Imports
 import { useForm } from "react-hook-form";
 
-const StudentDetails = ({ data, data1 }) => {
+const EmployeeDetails = ({ data }) => {
   useEffect(() => {
-    setUnits(data.rows);
-    setCourses(data1.rows);
+    setDepartment(data.rows);
   }, []);
 
-  const [courses, setCourses] = useState([]);
-  const [units, setUnits] = useState([]);
   const { handleSubmit, register } = useForm();
-  const [regUnits, setRegUnits] = useState([]);
+  const [lecturerView, setLecturerView] = useState(false);
+  const [workersView, setWorkersView] = useState(false);
+  const [department, setDepartment] = useState([]);
+  const [employeeType, setEmployeeType] = useState();
+  const areas = ["grounds", "kitchen", "front-office", "secretary"];
 
   const onSubmit = (data) => {
-    data.registeredUnits = regUnits;
-
+    data.employeeType = employeeType;
     axios({
       method: "POST",
-      url: "http://localhost:3000/api/student",
+      url:
+        "http://localhost:3000/api/employee" ||
+        `${process.env.API_URL}employee`,
       data,
     })
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err.message));
+      .then((resposne) => console.log(resposne))
+      .catch((err) => console.log(err));
   };
 
-  const handleCheckBoxChange = (unit) => {
-    if (regUnits.includes(unit)) {
-      setRegUnits(regUnits.filter((unitsToKeep) => unitsToKeep != unit));
-    } else {
-      setRegUnits((arr) => [...arr, unit]);
-    }
+  const handleLecturerCheckBoxChange = () => {
+    lecturerView ? setLecturerView(false) : setLecturerView(true),
+      setWorkersView(false),
+      setEmployeeType("Lecturer");
+  };
+  const handleStaffCheckBoxChange = () => {
+    workersView ? setWorkersView(false) : setWorkersView(true),
+      setEmployeeType("Staff"),
+      setLecturerView(false);
   };
 
   return (
     <div className="flex w-full h-full bg-gray-100 overflow-y-scroll">
       <div className="w-1/4">Details</div>
       <div className="flex-1 bg-gray-50 shadow-2xl">
-        <form onSubmit={handleSubmit(onSubmit)} className="pb-10">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="pb-10 h-full w-full justify-center flex flex-col"
+        >
           {/* Beginning of student details  */}
           <div className="student border-b-2 border-gray-200 my-4">
-            <h1 className="text-xl font-bold mb-4">STUDENT DETAILS</h1>
+            <h1 className="text-xl font-bold mb-4">EMPLOYEE DETAILS</h1>
             <div className="names flex w-11/12 m-auto">
               {/* Beginning of the first name  */}
 
@@ -93,7 +101,7 @@ const StudentDetails = ({ data, data1 }) => {
                     type="number"
                     name="Age"
                     className="w-3/4 h-10 focus:outline-none focus:ring focus:border-blue-300 border border-gray-300 rounded-md"
-                    {...register("students-age")}
+                    {...register("age")}
                   />
                 </div>
               </div>
@@ -108,7 +116,7 @@ const StudentDetails = ({ data, data1 }) => {
                 <div>
                   <select
                     className="w-3/4 h-10 focus:outline-none focus:ring focus:border-blue-300 border border-gray-300 rounded-md"
-                    {...register("students-gender")}
+                    {...register("gender")}
                     required
                   >
                     <option value="Male">Male</option>
@@ -120,111 +128,6 @@ const StudentDetails = ({ data, data1 }) => {
               {/* End of the Sex Section  */}
             </div>
             {/* End of the Age Section  */}
-
-            {/* Beginning of Course Registration  */}
-            <div className="name flex-1 mx-auto w-11/12 pb-10">
-              <div>
-                <label>Course</label>
-              </div>
-              <div>
-                <select
-                  className="w-3/4 h-10 focus:outline-none focus:ring focus:border-blue-300 border border-gray-300 rounded-md"
-                  {...register("course")}
-                >
-                  {courses.length < 1 ? (
-                    <option>No Courses Available</option>
-                  ) : (
-                    courses.map((course) => (
-                      <option value={course[2]} key={course[2]}>
-                        {course[0]}
-                      </option>
-                    ))
-                  )}
-                </select>
-              </div>
-            </div>
-            {/* End of Course Registration  */}
-          </div>
-          {/* End of student details  */}
-
-          {/* Beginning of the Gaurdian Section  */}
-          <div className="gaurdian border-b-2 border-gray-200 my-4">
-            <h1 className="text-2xl font-bold">Gaurdian Details</h1>
-            <div className="names flex w-11/12 m-auto">
-              {/* Beginning of the first name  */}
-
-              <div className="name flex-1">
-                <div className="mb-2">
-                  <label>First Name</label>
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    name="first-name"
-                    className="w-3/4 h-10 focus:outline-none focus:ring focus:border-blue-300 border border-gray-300 rounded-md"
-                    {...register("gaurdian-first-name")}
-                  />
-                </div>
-              </div>
-
-              {/* End of the first name  */}
-
-              {/* Beginning of the last name  */}
-              <div className="name flex-1">
-                <div className="mb-2">
-                  <label>Last Name</label>
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    name="last-name"
-                    className="w-3/4 h-10 focus:outline-none focus:ring focus:border-blue-300 border border-gray-300 rounded-md"
-                    {...register("gaurdian-last-name")}
-                  />
-                </div>
-              </div>
-
-              {/* End of the last name  */}
-            </div>
-            <div className="names flex w-11/12 mx-auto my-4">
-              {/* Beginning of the Age Section  */}
-
-              <div className="name flex-1">
-                <div className="mb-2">
-                  <label>Age</label>
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    name="Age"
-                    className="w-3/4 h-10 focus:outline-none focus:ring focus:border-blue-300 border border-gray-300 rounded-md"
-                    {...register("gaurdian-age")}
-                  />
-                </div>
-              </div>
-
-              {/* End of the Age Section  */}
-
-              {/* Beginning of the Sex Action  */}
-              <div className="name flex-1">
-                <div className="mb-2">
-                  <label>Sex</label>
-                </div>
-                <div>
-                  <select
-                    className="w-3/4 h-10 focus:outline-none focus:ring focus:border-blue-300 border border-gray-300 rounded-md"
-                    {...register("gaurdian-gender")}
-                    required
-                  >
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* End of the Sex Section  */}
-            </div>
-
             {/* Beginning of the Contact Section  */}
             <div className="name flex-1 mx-auto w-11/12 pb-10">
               <div>
@@ -240,31 +143,142 @@ const StudentDetails = ({ data, data1 }) => {
             </div>
             {/* End of the Contact Section  */}
           </div>
-          {/* End of the Gaurdian Section  */}
 
-          {/* Beginning of the Units registration  */}
-          {/* <div className="units border-b-2 border-gray-200 my-4">
-            <h1 className="font-bold text-2xl mb-4">Units Registration</h1>
+          {/* Beginning of the Employee CheckBox  registration  */}
+          <div className="units border-b-2 border-gray-200 my-4">
+            <h1 className="font-bold text-2xl mb-4">Choose Employee</h1>
             <div className="names flex w-11/12 m-auto">
-              {units.length < 1 ? (
-                <h1>No Units Added</h1>
-              ) : (
-                units.map((unit) => (
-                  <div className="space-y-2" key={unit[0]}>
-                    <input
-                      type="checkbox"
-                      value={unit[0]}
-                      name={unit[1]}
-                      onClick={() => handleCheckBoxChange(unit)}
-                      // {...register(unit[1])}
-                    />
-                    <label> {unit[1]}</label>
-                  </div>
-                ))
-              )}
+              <div className="space-x-2">
+                <input
+                  type="checkbox"
+                  value="Lecturer"
+                  name="Lecturer"
+                  onClick={handleLecturerCheckBoxChange}
+                  // {...register(unit[1])}
+                />
+                <label>Lecturer</label>
+              </div>
+
+              <div className="space-x-2 ml-10">
+                <input
+                  type="checkbox"
+                  value="Lecturer"
+                  name="Employee"
+                  onClick={handleStaffCheckBoxChange}
+                  // {...register(unit[1])}
+                />
+                <label>Staff</label>
+              </div>
             </div>
-          </div> */}
+          </div>
           {/* End of the Units registration  */}
+
+          {/* Beginning of the Lectures Section  */}
+          {lecturerView && (
+            <div className="names flex w-11/12 m-auto mb-12 ">
+              {/* Beginning of the first name  */}
+
+              <div className="name flex-1">
+                <div className="mb-2">
+                  <label>Title</label>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    name="first-name"
+                    className="w-3/4 h-10 focus:outline-none focus:ring focus:border-blue-300 border border-gray-300 rounded-md"
+                    {...register("title")}
+                  />
+                </div>
+              </div>
+
+              {/* End of the first name  */}
+
+              {/* Beginning of the last name  */}
+              <div className="name flex-1">
+                <div className="mb-2">
+                  <label>Department</label>
+                </div>
+                <div>
+                  <select
+                    name=""
+                    id=""
+                    {...register("Department")}
+                    className="w-3/4 h-10 focus:outline-none focus:ring focus:border-blue-300 border border-gray-300 rounded-md"
+                  >
+                    {department.length < 1 ? (
+                      <option>No Departments Available</option>
+                    ) : (
+                      department.map((depart) => (
+                        <option
+                          key={depart[0]}
+                          value={depart[0]}
+                          className="w-full"
+                        >
+                          {depart[1]}
+                        </option>
+                      ))
+                    )}
+                  </select>
+                </div>
+              </div>
+
+              {/* End of the last name  */}
+            </div>
+          )}
+          {/* End of the Lectures Section  */}
+
+          {/* Beginning of the Staff Section  */}
+          {workersView && (
+            <div className="names flex w-11/12 m-auto mb-12 ">
+              {/* Beginning of the first name  */}
+
+              <div className="name flex-1">
+                <div className="mb-2">
+                  <label>Title</label>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    name="first-name"
+                    className="w-3/4 h-10 focus:outline-none focus:ring focus:border-blue-300 border border-gray-300 rounded-md"
+                    {...register("title")}
+                  />
+                </div>
+              </div>
+
+              {/* End of the first name  */}
+
+              {/* Beginning of the last name  */}
+              <div className="name flex-1">
+                <div className="mb-2">
+                  <label>Area</label>
+                </div>
+                <div>
+                  <select
+                    name=""
+                    id=""
+                    {...register("area")}
+                    className="w-3/4 h-10 focus:outline-none focus:ring focus:border-blue-300 border border-gray-300 rounded-md"
+                  >
+                    {areas.length < 1 ? (
+                      <option>No Departments Available</option>
+                    ) : (
+                      areas.map((area) => (
+                        <option key={area} value={area} className="w-full">
+                          {area}
+                        </option>
+                      ))
+                    )}
+                  </select>
+                </div>
+              </div>
+
+              {/* End of the last name  */}
+            </div>
+          )}
+          {/* End of the Staff Section  */}
+
           <div className="mx-auto flex-1 w-11/12">
             <input
               type="submit"
@@ -281,24 +295,20 @@ const StudentDetails = ({ data, data1 }) => {
 export const getStaticProps = async () => {
   const data = await axios({
     method: "GET",
-    url:
-      "http://localhost:3000/api/unit/getAll" ||
-      `${process.env.API_URL}unit/getAll`,
+    url: "http://localhost:3000/api/department/getAll",
   });
 
-  const data1 = await axios({
-    method: "GET",
-    url:
-      "http://localhost:3000/api/course/getAll" ||
-      `${process.env.API_URL}unit/getAll`,
-  });
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
-      data: data.data.response,
-      data1: data1.data.response,
+      data: data.data,
     },
   };
 };
 
-export default StudentDetails;
+export default EmployeeDetails;

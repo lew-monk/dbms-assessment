@@ -18,16 +18,16 @@ export default async function registerStudent(req, res) {
       let last_name = "'" + req.body["last-name"] + "'";
       let age = req.body["students-age"];
       let sex = "'" + req.body["students-gender"] + "'";
-      let fee_billed = req.body["registeredUnits"].length * 10000;
+      let fee_billed = req.body["registeredUnits"].length * 10000 || 0;
       let course_id = req.body["course"];
       const student_id = Math.random();
 
       //Gaurdians Details
       const gaurdian_id = Math.random();
       let gaurdian_first_name = "'" + req.body["gaurdian-first-name"] + "'";
-      let gaurdian_last_name = "'" + req.body["garudian-last-name"] + "'";
+      let gaurdian_last_name = "'" + req.body["gaurdian-last-name"] + "'";
       let gaurdians_age = req.body["gaurdian-age"];
-      let gaurdians_sex = "'" + req.body["guardian-gender"] + "'";
+      let gaurdians_sex = "'" + req.body["gaurdian-gender"] + "'";
       let tel = req.body["tel"];
 
       let query = `INSERT INTO HR.STUDENT VALUES (${student_id}, ${first_name}, ${last_name}, ${fee_billed}, ${age}, ${sex}, ${course_id}, ${gaurdian_id})`;

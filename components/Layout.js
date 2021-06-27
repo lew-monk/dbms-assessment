@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="w-1/6 bg-blue-400">
+      <div className="w-1/6 bg-blue-200">
         <SideBar />
       </div>
       <div className="flex-1">{children}</div>

@@ -13,8 +13,6 @@ CREATE TABLE Departments
   CONSTRAINT PK_Departments PRIMARY KEY (Department_ID)
 );
 
-COMMENT ON TABLE Departments IS 'This covers the various departments in the school';
-
 CREATE TABLE Employee
 (
   Staff_ID   NUMBER   NOT NULL,
@@ -61,7 +59,6 @@ CREATE TABLE Payment
   CONSTRAINT PK_Payment PRIMARY KEY (Pay_ID)
 );
 
-COMMENT ON TABLE Payment IS 'This entails the various Payments made';
 
 CREATE TABLE Register_Units
 (
@@ -70,7 +67,6 @@ CREATE TABLE Register_Units
   CONSTRAINT PK_Register_Units PRIMARY KEY (Unit_ID, Student_ID)
 );
 
-COMMENT ON TABLE Register_Units IS 'This Entity entails the units Information';
 
 CREATE TABLE Staff
 (
@@ -94,7 +90,6 @@ CREATE TABLE Student
   CONSTRAINT PK_Student PRIMARY KEY (Student_ID)
 );
 
-COMMENT ON TABLE Student IS 'This table entails the studenrs informatio';
 
 CREATE TABLE Units
 (
